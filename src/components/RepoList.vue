@@ -30,12 +30,23 @@
                         <div class="btn-group">
                             <a class="btn btn-info" 
                             :href="repo.html_url">Visit</a>
-                            <button class="btn btn-danger">Delete</button>
+                            <button class="btn btn-danger" @click="deleteRepo(repo)">Delete</button>
                         </div>
                     </th>
                 </tr>
             </tbody>
         </table>
+
+        <!-- <b-table :items="repos" :fields="fields ">
+
+        </b-table> -->
+
+        <b-modal title="Pay Attention"
+         header-bg-variant="danger" 
+         header-text-variant="light"
+         v-model="showDeleteModal" @ok="$emit('delete-repo', repoId)">
+            Are you sure to delete?
+        </b-modal>
     </div>
 </template>
 
@@ -46,6 +57,13 @@ export default {
         repos: {default: () => [], type: Array}
     },
     data: () => ({
+        repoId: null,
+        showDeleteModal: false,
+        fields: [
+            'id',
+            'name',
+
+        ],
         liClasses: [
             '',
             'list-group-item-primary',
@@ -57,7 +75,13 @@ export default {
             'list-group-item-light',
             'list-group-item-dark'
         ]
-    })
+    }),
+    methods: {
+        deleteRepo(repo) {
+            this.repoId = repo.id;
+            this.showDeleteModal = true;
+        }
+    }
 }
 </script>
 
